@@ -6,7 +6,12 @@ import {
     setMeta,
 } from "../util.js";
 import { score } from "../score.js";
-import { fetchEditors, fetchList, firstVictorOf } from "../content.js";
+import {
+    fetchEditors,
+    fetchList,
+    firstVictorIndexOf,
+    firstVictorOf,
+} from "../content.js";
 import { MAIN_LIST_SIZE, LIST_SIZE } from "../constants.js";
 
 import Spinner from "../components/Spinner.js";
@@ -218,9 +223,7 @@ export default {
             );
         },
         firstVictorIndex() {
-            return (this.level?.records || []).findIndex(
-                (record) => record.percent === 100,
-            );
+            return firstVictorIndexOf(this.level);
         },
     },
     async mounted() {

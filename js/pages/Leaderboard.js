@@ -139,9 +139,10 @@ export default {
                                 <td class="level">
                                     <a class="type-label-lg" :href="levelHref(score.path)" @click="markInAppNavigation(levelHref(score.path))">{{ score.level }}</a>
                                     <a class="badge type-label-sm record-video" v-if="score.link" :href="score.link" target="_blank">Video</a>
+                                    <span class="badge type-label-sm verified-credit" v-if="score.verified">Verified</span>
                                 </td>
                                 <td class="score">
-                                    <p>+{{ localize(score.score) }}</p>
+                                    <p v-if="!score.verified">+{{ localize(score.score) }}</p>
                                 </td>
                             </tr>
                         </table>

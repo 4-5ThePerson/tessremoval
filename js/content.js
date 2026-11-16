@@ -14,13 +14,22 @@ export async function fetchList() {
                 const levelResult = await fetch(`${dir}/${path}`);
                 try {
                     const level = await levelResult.json();
+
+                    // Don't list the verifier's record as a player record
+                    const verifier = String(level.verifier || '').toLowerCase();
+                    const records = (level.records || [])
+                        .filter(
+                            (record) =>
+                                String(record.user || '').toLowerCase() !==
+                                verifier,
+                        )
+                        .sort((a, b) => b.percent - a.percent);
+
                     return [
                         {
                             ...level,
                             path,
-                            records: level.records.sort(
-                                (a, b) => b.percent - a.percent,
-                            ),
+                            records,
                         },
                         null,
                     ];
@@ -46,16 +55,16 @@ export async function fetchEditors() {
     }
 }
 
-/**
- * The first victor of a level is the earliest 100% completion. Records are
- * stored in submission order, so that is simply the first 100% record listed.
- * The verifier credit is tracked separately and never implies a first victory.
- */
-export function firstVictorOf(level) {
-    return (
-        (level?.records || []).find((record) => record.percent === 100) ||
-        null
+// Index of the level's first victor, i.e. the first 100% record
+export function firstVictorIndexOf(level) {
+    return (level?.records || []).findIndex(
+        (record) => record.percent === 100,
     );
+}
+
+export function firstVictorOf(level) {
+    const index = firstVictorIndexOf(level);
+    return index >= 0 ? level.records[index] : null;
 }
 
 export async function fetchLeaderboard() {
@@ -113,6 +122,7 @@ export async function fetchLeaderboard() {
         }
 
         // Records
+        let verifierCompleted = false;
         level.records.forEach((record) => {
             const user = Object.keys(scoreMap).find(
                 (u) => u.toLowerCase() === record.user.toLowerCase(),
@@ -127,6 +137,9 @@ export async function fetchLeaderboard() {
             scoreMap[user].firstVictors ??= [];
             const { completed, progressed } = scoreMap[user];
             if (record.percent === 100) {
+                if (user === verifier) {
+                    verifierCompleted = true;
+                }
                 completed.push({
                     rank: rank + 1,
                     level: level.name,
@@ -152,6 +165,18 @@ export async function fetchLeaderboard() {
                 date: record.date,
             });
         });
+
+        // Verifying also counts as a completion
+        if (!verifierCompleted) {
+            scoreMap[verifier].completed.push({
+                rank: rank + 1,
+                level: level.name,
+                path: level.path,
+                score: score(rank + 1, 100, level.percentToQualify),
+                link: level.verification,
+                verified: true,
+            });
+        }
     });
 
     // Creators
@@ -195,8 +220,10 @@ export async function fetchLeaderboard() {
 
     // Wrap in extra Object containing the user and total score
     const res = Object.entries(scoreMap).map(([user, scores]) => {
-        const { verified, completed, progressed } = scores;
-        const total = [verified, completed, progressed]
+        const { completed, progressed } = scores;
+
+        // Verified levels are stored in `completed`
+        const total = [completed, progressed]
             .flat()
             .reduce((prev, cur) => prev + cur.score, 0);
 

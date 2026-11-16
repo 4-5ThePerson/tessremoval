@@ -78,6 +78,14 @@
 }
 .page-leaderboard .player .table {
     table-layout: fixed;
+    width: 100%;
+}
+/* Same column widths in every section */
+.page-leaderboard .player .table .rank {
+    width: 6rem;
+}
+.page-leaderboard .player .table .score {
+    width: 7rem;
 }
 .page-leaderboard .player .table tr td:not(:last-child) {
     padding-right: 2rem;
@@ -91,7 +99,7 @@
     text-align: end;
 }
 .page-leaderboard .player .table .level {
-    width: 100%;
+    width: auto;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -119,6 +127,11 @@
 }
 .page-leaderboard .board-container .board-search input[type="text"]:focus {
     outline: 2px solid var(--color-primary);
+}
+.page-leaderboard .player .table .level .badge.verified-credit {
+    padding-block: 0.125rem;
+    text-decoration: none;
+    opacity: 0.75;
 }
 .page-leaderboard .board-container .board-sort {
     display: flex;
