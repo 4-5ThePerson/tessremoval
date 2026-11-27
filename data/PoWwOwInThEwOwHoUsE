@@ -1,21 +1,15 @@
 {
-    "id": 146156851,
+    "id": 153052115,
     "name": "PoWwOwInThEwOwHoUsE",
-    "author": "TesseractYT",
+    "author": "TheZirkonXFiles",
     "creators": [
-        "TesseractYT"
+        "TheZirkonXFiles"
     ],
-    "verifier": "TesseractYT",
-    "verification": "https://www.youtube.com/watch?v=gEQclU39jN8",
+    "verifier": "4point5",
+    "verification": "https://www.youtube.com/watch?v=YYCn8XU3ZIY",
     "percentToQualify": "73",
     "password": "Free To Copy",
     "records": [
-        {
-            "user": "4point5",
-            "link": "https://www.youtube.com/watch?v=YYCn8XU3ZIY",
-            "percent": 100,
-            "hz": 144
-        },
         {
             "user": "Vanity485_",
             "link": "",
