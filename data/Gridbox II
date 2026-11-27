@@ -1,20 +1,14 @@
 {
 
-    "id": 136323235,
+    "id": 153052186,
     "name": "Gridbox II",
-    "author": "TesseractYT",
-    "creators": ["TesseractYT"],
-    "verifier": "TesseractYT",
-    "verification": "https://youtube.com/watch?v=BDs0jbLsntM&si=FZGMa8fv1w_xLHbY",
+    "author": "TheZirkonXFiles",
+    "creators": ["TheZirkonXFiles"],
+    "verifier": "4point5",
+    "verification": "i'll upload mine later",
     "percentToQualify": 75,
     "password": "Free To Copy",
     "records": [
-        {
-            "user": "4point5",
-            "link": "none",
-            "percent": 100,
-            "hz": 144
-        },
         {
             "user": "ruby",
             "link": "https://www.youtube.com/watch?v=PzSKJWn0O08",
